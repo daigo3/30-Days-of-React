@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>30 Days of React</title>
   <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch:700|Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/react@15.4.1/dist/react.min.js"></script>
   <script src="https://unpkg.com/react-dom@15.4.1/dist/react-dom.min.js"></script>
@@ -23,7 +24,57 @@
 
   class App extends Component {
     render() {
-      return <h1>Hello from our app</h1>;
+      return (
+        <div className="notificationsFrame">
+          <div className="panel">
+            <Header />
+            <Content />
+          </div>
+        </div>
+      );
+    }
+  }
+
+  class Header extends Component {
+    render() {
+      return (
+        <div className="header">
+          <div className="menu fa fa-bars"></div>
+          <span className="title">Timeline</span>
+          <div className="search-container">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search ..." />
+            <div className="fa fa-search search-icon"></div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  class Content extends Component {
+    render() {
+      return (
+        <div className="content">
+          {/* timeline item */}
+          <div className="item">
+            <div className="avatar">
+              <img src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
+              Doug
+            </div>
+
+            <span className="time">
+              An hour ago
+            </span>
+            <p>Ate lunch</p>
+            <div className="comment-count">
+              2
+            </div>
+          </div>
+          {/* ... */}
+        </div>
+      );
     }
   }
 
