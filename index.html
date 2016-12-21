@@ -18,8 +18,19 @@
   <div id="app"></div>
 
   <script type="text/babel">
+  const { Component } = React;
+  const { render } = ReactDOM;
+
+  class Hello extends Component {
+    render() {
+      return (
+        <h1 className="hello">Hello, World!</h1>
+      );
+    }
+  }
+
   ReactDOM.render(
-    <h1>Hello, World</h1>,
+    <Hello/>,
     document.getElementById('app')
   );
   </script>
