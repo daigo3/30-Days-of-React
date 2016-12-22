@@ -22,13 +22,34 @@
   const { Component } = React;
   const { render } = ReactDOM;
 
+  const activities = [
+    {
+      timestamp: new Date().getTime(),
+      text: "Ate lunch",
+      user: {
+        id: 1, name: 'Nate',
+        avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+      },
+      comments: [{ from: 'Ari', text: 'Me too!' }]
+    },
+    {
+      timestamp: new Date().getTime(),
+      text: "Woke up early for a beautiful run",
+      user: {
+        id: 2, name: 'Ari',
+        avatar: "http://www.croop.cl/UI/twitter/images/doug.jpg"
+      },
+      comments: [{ from: 'Nate', text: 'I am so jealous' }]
+    },
+  ];
+
   class App extends Component {
     render() {
       return (
         <div className="notificationsFrame">
           <div className="panel">
-            <Header />
-            <Content />
+            <Header title="Timeline"/>
+            <Content activities={activities} />
           </div>
         </div>
       );
@@ -40,7 +61,7 @@
       return (
         <div className="header">
           <div className="menu fa fa-bars"></div>
-          <span className="title">Timeline</span>
+          <span className="title">{this.props.title}</span>
           <div className="search-container">
             <input
               type="text"
@@ -55,24 +76,34 @@
 
   class Content extends Component {
     render() {
+      const { activities } = this.props;
+
       return (
         <div className="content">
-          {/* timeline item */}
-          <div className="item">
-            <div className="avatar">
-              <img src="http://www.croop.cl/UI/twitter/images/doug.jpg" />
-              Doug
-            </div>
+          {activities.map((activity) => <Activity activity={activity}/>)}
+        </div>
+      );
+    }
+  }
 
-            <span className="time">
-              An hour ago
-            </span>
-            <p>Ate lunch</p>
-            <div className="comment-count">
-              2
-            </div>
+  class Activity extends Component {
+
+    fixDate(timestamp) {
+      const d = new Date(timestamp);
+
+      return `${d.getHours()}:${d.getMinutes()}`;
+    }
+
+    render() {
+      const { activity } = this.props;
+      return (
+        <div className="item">
+          <div className="avatar">
+            <img src={activity.user.avatar} /> {activity.user.name}
           </div>
-          {/* ... */}
+          <span className="time">{this.fixDate(activity.timestamp)}</span>
+          <p>{activity.text}</p>
+          <div className="comment-count">{activity.comments.length}</div>
         </div>
       );
     }
