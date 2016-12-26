@@ -57,7 +57,28 @@
   }
 
   class Header extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        searchVisible: false
+      };
+    }
+
+    // 検索のトグル
+    showSearch() {
+      this.setState({
+        searchVisible: !this.state.searchVisible
+      });
+    }
+
     render() {
+      let searchInputClasses = ['search-input'];
+
+      if(this.state.searchVisible) {
+        searchInputClasses.push('active');
+      }
+
       return (
         <div className="header">
           <div className="menu fa fa-bars"></div>
@@ -65,9 +86,11 @@
           <div className="search-container">
             <input
               type="text"
-              className="search-input"
+              className={searchInputClasses.join(' ')}
               placeholder="Search ..." />
-            <div className="fa fa-search search-icon"></div>
+            <div
+              onClick={this.showSearch.bind(this)}
+              className="fa fa-search search-icon" />
           </div>
         </div>
       );
