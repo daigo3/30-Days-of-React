@@ -19,7 +19,7 @@
   <div id="app"></div>
 
   <script type="text/babel">
-  const { Component } = React;
+  const { Component, PropTypes } = React;
   const { render } = ReactDOM;
 
   const data = [
@@ -71,7 +71,7 @@
       return (
         <div className="notificationsFrame">
           <div className="panel">
-            <Header title="Timeline"/>
+            <Header/>
             <Content
               onComponentRefresh={this.onComponentRefresh.bind(this)}
               requestRefresh={refreshing} />
@@ -126,6 +126,14 @@
       );
     }
   }
+
+  Header.defaultProps = {
+    title: 'Github activity'
+  };
+
+  Header.propTypes = {
+    title: PropTypes.string
+  };
 
   class Content extends Component {
     constructor(props) {
