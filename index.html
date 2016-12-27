@@ -22,7 +22,7 @@
   const { Component } = React;
   const { render } = ReactDOM;
 
-  const activities = [
+  const data = [
     {
       timestamp: new Date().getTime(),
       text: "Ate lunch",
@@ -44,12 +44,42 @@
   ];
 
   class App extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        refreshing: false
+      };
+    }
+
+    refresh() {
+      this.setState({ refreshing: true });
+    }
+
+    onComponentRefresh() {
+      this.setState({ refreshing: false });
+    }
+
     render() {
+      const {refreshing} = this.state;
+      let refreshClasses = ['fa', 'fa-refresh'];
+
+      if(refreshing) {
+        refreshClasses.push('fa-spin');
+      }
+
       return (
         <div className="notificationsFrame">
           <div className="panel">
             <Header title="Timeline"/>
-            <Content activities={activities} />
+            <Content
+              onComponentRefresh={this.onComponentRefresh.bind(this)}
+              requestRefresh={refreshing} />
+            <footer>
+              <div onClick={this.refresh.bind(this)}>
+                <i className={refreshClasses.join(' ')} />
+              </div>
+            </footer>
           </div>
         </div>
       );
@@ -98,11 +128,40 @@
   }
 
   class Content extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        loading: false,
+        activities: []
+      };
+    }
+
+    componentDidMount() {
+      this.updateData();
+    }
+
+    componentWillReceiveProps(nextProps) {
+      if(nextProps.requestRefresh !== this.props.requestRefresh) {
+        this.setState({ loading: false}, this.updateData);
+      }
+    }
+
+    updateData() {
+      setTimeout(() => {
+        this.setState({
+          loading: false,
+          activities: data
+        }, this.props.onComponentRefresh);
+      }, 1000);
+    }
+
     render() {
-      const { activities } = this.props;
+      const { loading, activities } = this.state;
 
       return (
         <div className="content">
+          {loading && <div>Loading</div>}
           {activities.map((activity) => <Activity activity={activity}/>)}
         </div>
       );

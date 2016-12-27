@@ -136,4 +136,17 @@ header.body .title {
     z-index: 2;
   }
 
+#app footer {
+  background-color: #ddd;
+  padding: 10px 0;
+  text-align: center;
+}
 
+  #app footer div {
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 42px;
+  }
